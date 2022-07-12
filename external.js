@@ -8,3 +8,41 @@ function computerPlay() {
   index = Math.floor(index);
   return choices[index];
 }
+
+function singleRound(playerSelection, computerSelection) {
+  playerSelection = prompt("Select 'Rock', 'Paper', or 'Scissors'");
+  computerSelection = computerPlay();
+  const playerRegex = /^Rock$|^Paper$|^Scissors$/i;
+  let input = playerRegex.test(playerSelection);
+
+  let win = false;
+
+  if (
+    (input &&
+      playerSelection === "rock" &&
+      computerSelection === "Scissors") ||
+    (playerSelection === "paper" && computerSelection === "Rock") ||
+    (playerSelection === "scissors" && computerSelection === "Paper")
+  ) {
+    win = true;
+  } else {
+    win = false;
+  }
+
+  if (win) {
+    console.log(
+      `${playerSelection} beats ${computerSelection}. You win!`
+    );
+  } else if (
+    computerSelection.toLowerCase() === playerSelection.toLowerCase()
+  ) {
+    console.log("It's a draw!");
+  } else {
+    console.log(
+      `${computerSelection} beats ${playerSelection}. You lose!`
+    );
+  }
+
+  console.log(playerSelection);
+  console.log(computerSelection);
+}
