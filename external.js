@@ -24,12 +24,12 @@ function playRound(playerSelection, computerSelection) {
     //   assigns random choice from computerPlay() to computerSelection
     computerSelection = computerPlay();
     const playerRegex = /^Rock$|^Paper$|^Scissors$/i;
-    //   assigns boolean result of user input's regex test to `input`
+    // assigns boolean result of user input's regex test to `input`
     let input = playerRegex.test(playerSelection);
-    // defines win variable, prior to it having a value
-    let win = null;
+    // defines winStatus variable with default value of false
+    let winStatus = false;
 
-    // defines what is considered as a win
+    // defines condition - consider win and add 1 to playerScore if
     if (
         // if input regex is true and if playerSelection > computerSelection
         input &&
@@ -40,8 +40,8 @@ function playRound(playerSelection, computerSelection) {
             (playerSelection === "scissors" &&
                 computerSelection === "Paper"))
     ) {
-        win = true;
-        ++playerScore;
+        winStatus = true;
+        playerScore++;
     }
 
     // defines a variable that makes the user's input title case
@@ -51,35 +51,33 @@ function playRound(playerSelection, computerSelection) {
         // transforms second to last letters to lowercase
         playerSelection.slice(1).toLowerCase();
 
-    // defines condition - if win = true
-    if (win) {
+    // defines condition - return winner and return score if winStatus = true
+    if (winStatus) {
         console.log(
-            `${playerSelectionUpper} beats ${computerSelection}. You win!`
+            `\nYou: ${playerSelectionUpper}\nComputer: ${computerSelection}.\n\nYou won this round! Congrats on the point`
         );
-        return `The score is ${playerScore} to ${computerScore}.`;
-        // defines condition - if both playerSelection and computerSelection in lowercase are ===
+        return `---- You: ${playerScore}\nComputer: ${computerScore}.`;
+
+        // defines condition - return draw statement and return score if computer & player have same selection
     } else if (
         computerSelection.toLowerCase() ==
         playerSelection.toLowerCase()
     ) {
         console.log(
-            `${playerSelectionUpper} matches evenly with ${computerSelection}. It's a draw!`
+            `\nYou: ${playerSelectionUpper}\nComputer: ${computerSelection}.\n\nIt's a draw! No points accrued.`
         );
-        return;
-        `The score is STILL ${playerScore} - ${computerScore}.`;
+        return `---- You: ${playerScore} | Computer: ${computerScore}`;
 
-        // defines condition - if input doesn't pass regex test
+        // defines condition - call playRoundError function if input regex is invalid
     } else if (!input) {
         console.log(playRoundError());
-        // defines condition - if win = false
+        // defines condition - return loss statement and return current score if winStatus != true;
     } else {
-        ++computerScore;
+        computerScore++;
         console.log(
-            `${computerSelection} beats ${playerSelectionUpper}. You lose!`
+            `\nComputer: ${computerSelection}\nYou: ${playerSelectionUpper}.\n\nYou lost this round! Computer gains 1 point.`
         );
-        console.log(
-            `The score is ${playerScore} to ${computerScore}.`
-        );
+        return `---- You: ${playerScore} | Computer: ${computerScore}`;
     }
 }
 
@@ -88,12 +86,15 @@ function playRound(playerSelection, computerSelection) {
 // declares function to be called when invalid user input (invalid regex)
 function playRoundError(playerSelection, computerSelection) {
     playerSelection = prompt("Pick ROCK, PAPER, or SCISSORS.");
+    //   assigns random choice from computerPlay() to computerSelection
     computerSelection = computerPlay();
     const playerRegex = /^Rock$|^Paper$|^Scissors$/i;
+    // assigns boolean result of user input's regex test to `input`
     let input = playerRegex.test(playerSelection);
-    let win = false;
+    // defines winStatus variable with default value of false
+    let winStatus = false;
 
-    // defines what is considered as a win
+    // defines condition - consider win and add 1 to playerScore if
     if (
         // if input regex is true and if playerSelection > computerSelection
         input &&
@@ -104,41 +105,43 @@ function playRoundError(playerSelection, computerSelection) {
             (playerSelection === "scissors" &&
                 computerSelection === "Paper"))
     ) {
-        win = true;
+        winStatus = true;
+        playerScore++;
     }
 
     // defines a variable that makes the user's input title case
     let playerSelectionUpper =
+        // transforms first letter to uppercase
         playerSelection[0].toUpperCase() +
+        // transforms second to last letters to lowercase
         playerSelection.slice(1).toLowerCase();
 
-    // defines condition - if win = true
-    if (win) {
-        return `${playerSelectionUpper} beats ${computerSelection}. You win!`;
-        // defines condition - if both playerSelection and computerSelection in lowercase are ===
+    // defines condition - return winner and return score if winStatus = true
+    if (winStatus) {
+        console.log(
+            `\nYou: ${playerSelectionUpper}\nComputer: ${computerSelection}.\n\nYou won this round! Congrats on the point`
+        );
+        return `---- You: ${playerScore}\nComputer: ${computerScore}.`;
+
+        // defines condition - return draw statement and return score if computer & player have same selection
     } else if (
         computerSelection.toLowerCase() ==
         playerSelection.toLowerCase()
     ) {
-        return `${playerSelectionUpper} matches evenly with ${computerSelection}. It's a draw!`;
-        // defines condition - if input doesn't pass regex test then repeat function
-    } else if (!input) {
-        playRoundError();
-        // defines condition - if win = false
-    } else {
-        return `${computerSelection} beats ${playerSelectionUpper}. You lose!`;
-    }
-}
+        console.log(
+            `\nYou: ${playerSelectionUpper}\nComputer: ${computerSelection}.\n\nIt's a draw! No points accrued.`
+        );
+        return `---- You: ${playerScore} | Computer: ${computerScore}`;
 
-function game() {
-    for (let i = 0; i < 5; i++) {
-        console.log(playRound());
-    }
-    if (playerScore > computerScore) {
-        return "Player wins!";
-    } else if (playerScore === computerScore) {
-        console.log("Well matched... It's a tie");
+        // defines condition - call playRoundError function if input regex is invalid
+    } else if (!input) {
+        console.log(playRoundError());
+        // defines condition - return loss statement and return current score if winStatus != true;
     } else {
-        console.log("Computer wins!");
+        computerScore++;
+        console.log(
+            `\nComputer: ${computerSelection}\nYou: ${playerSelectionUpper}.\n\nYou lost this round! Computer gains 1 point.`
+        );
+        return `---- You: ${playerScore} | Computer: ${computerScore}`;
     }
 }
