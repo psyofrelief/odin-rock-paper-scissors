@@ -1,4 +1,4 @@
-// defines winStatus variable with default value of false
+//  winStatus variable with default value of false
 let winStatus = false;
 
 let playerScore = 0;
@@ -15,7 +15,7 @@ function computerPlay() {
     // sets index to number between 0, 1
     var index = Math.random();
     // multiplies index by length of choices list (3)
-    index *= choices.length;
+    index *= Math.floor(choices.length);
     // removes decimal place from new index
     index = Math.floor(index);
     return choices[index];
@@ -25,20 +25,14 @@ function computerPlay() {
 
 // declares function that allows user and computer to play 1 round of RPScissors
 function playRound(playerSelection, computerSelection) {
-    //   assigns prompt dialogue box to `playerSelection`
-    playerSelection = prompt(`${promptValid}`);
-    //   assigns random choice from computerPlay() to computerSelection
     computerSelection = computerPlay();
     // assigns boolean result of user input's regex test to `input`
     let input = playerRegex.test(playerSelection);
-    // defines a variable that makes the user's input title case
     let playerSelectionUpper =
-        // transforms first letter to uppercase
         playerSelection[0].toUpperCase() +
-        // transforms second to last letters to lowercase
         playerSelection.slice(1).toLowerCase();
 
-    // defines condition - if true, winStatus = true & add 1 to playerScore
+    //  condition - if true, winStatus = true & add 1 to playerScore
     if (
         // if input regex is true and if playerSelection > computerSelection
         input &&
@@ -53,7 +47,7 @@ function playRound(playerSelection, computerSelection) {
         playerScore++;
     }
 
-    // defines condition - return winner and return score if winStatus = true
+    //  condition - return winner and return score if winStatus = true
     if (winStatus) {
         promptValid = promptValid;
         console.log(
@@ -61,7 +55,7 @@ function playRound(playerSelection, computerSelection) {
         );
         return `---- You: ${playerScore}\nComputer: ${computerScore}.`;
 
-        // defines condition - return draw statement and return score if computer & player have same selection
+        //  condition - return draw statement and return score if computer & player have same selection
     } else if (
         computerSelection.toLowerCase() ==
         playerSelection.toLowerCase()
@@ -71,11 +65,11 @@ function playRound(playerSelection, computerSelection) {
         );
         return `---- You: ${playerScore} | Computer: ${computerScore}`;
 
-        // defines condition - call playRoundError function if input regex is invalid
+        //  condition - call playRoundError function if input regex is invalid
     } else if (!input) {
         promptValid = promptInvalid;
         console.log(playRound());
-        // defines condition - return loss statement and return current score if winStatus != true;
+        //  condition - return loss statement and return current score if winStatus != true;
     } else {
         computerScore++;
         console.log(
@@ -87,30 +81,37 @@ function playRound(playerSelection, computerSelection) {
 
 // ============================================================================
 // playRound function, but with scorekeeping and a final message
-function game() {
-    // i = number of games, if playRound() is called and i < 5, call playRound() & add 1 to i
-    for (let i = 0; i < 5; i++) {
-        console.log(playRound());
-    }
-    // defines condition - if player wins
-    if (playerScore > computerScore) {
-        console.log(
-            `\nYOU WON THE GAME! ${playerScore} - ${computerScore}.`
-        );
-    } else if (playerScore === computerScore) {
-        console.log(
-            `\nWELL MATCHED... It's a tie ${playerScore} - ${computerScore}.`
-        );
-    } else {
-        console.log(
-            `\nCOMPUTER WINS THE GAME! ${computerScore} - ${playerScore}.`
-        );
-    }
+// function game() {
+//     // i = number of games, if playRound() is called and i < 5, call playRound() & add 1 to i
+//     for (let i = 0; i < 5; i++) {
+//         console.log(playRound());
+//     }
+//     //  condition - if player wins
+//     if (playerScore > computerScore) {
+//         console.log(
+//             `\nYOU WON THE GAME! ${playerScore} - ${computerScore}.`
+//         );
+//     } else if (playerScore === computerScore) {
+//         console.log(
+//             `\nWELL MATCHED... It's a tie ${playerScore} - ${computerScore}.`
+//         );
+//     } else {
+//         console.log(
+//             `\nCOMPUTER WINS THE GAME! ${computerScore} - ${playerScore}.`
+//         );
+//     }
 
-    // resets score after game() function has finished running
-    if (playerScore >= 0 || computerScore >= 0) {
-        playerScore = 0;
-        computerScore = 0;
-        return "What an interesting game of Rock Paper Scissors!";
-    }
+//     // resets score after game() function has finished running
+//     if (playerScore >= 0 || computerScore >= 0) {
+//         playerScore = 0;
+//         computerScore = 0;
+//         return "What an interesting game of Rock Paper Scissors!";
+//     }
+// }
+
+let button = document.querySelectorAll(".button");
+for (let i = 0; i < button.length; i++) {
+    button[i].addEventListener("click", () =>
+        playRound(button[i].textContent)
+    );
 }
