@@ -1,0 +1,139 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap");
+
+:root {
+    --clr-win: rgb(146, 204, 147);
+    --clr-score: rgb(255, 88, 88);
+    --clr-text: whitesmoke;
+    --clr-accent: rgb(175, 175, 255);
+    --clr-bg: rgb(50, 53, 62);
+    --clr-dark: rgba(11, 11, 11, 0.79);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+}
+
+body {
+    background-color: var(--clr-bg);
+    min-height: 100%;
+    flex-direction: column;
+    padding: 5rem 4rem 8rem 4rem;
+    justify-content: center;
+    font-family: "Rubik", sans-serif;
+    font-weight: 400;
+    text-align: center;
+    align-items: center;
+    display: flex;
+}
+
+/* ============================================================================ */
+
+/* 1. */
+.title {
+    font-family: "Josefin Sans", sans-serif;
+    font-weight: 900;
+    letter-spacing: 0.4ch;
+    text-align: center;
+    color: var(--clr-text);
+    font-size: 2.8rem;
+    text-shadow: 1px 1px 2rem black;
+    transition-duration: 400ms;
+}
+
+/* 2. */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    gap: 3vw;
+    transition-duration: 150ms;
+}
+
+.container > * {
+    margin: 1.5rem;
+}
+
+.button__container {
+    gap: 6vw;
+    display: flex;
+}
+
+.button {
+    padding: 1em;
+    font-size: 2.5rem;
+    border-radius: 0.3em;
+    min-width: 10vw;
+    background-color: rgba(0, 0, 0, 0.1);
+    border: 2px dashed rgba(241, 237, 237, 0.7);
+}
+
+.button:hover {
+    cursor: pointer;
+    border: 2px dashed rgb(255, 255, 255);
+}
+
+.buttonClick {
+    box-shadow: 1px 1px 2rem black;
+    transition-duration: 500ms;
+    transform: scale(1.1);
+    border: 3px dashed rgb(255, 255, 255);
+    background-color: var(--clr-dark);
+}
+
+/* 3. paragraph that displays round result */
+.result {
+    color: var(--clr-text);
+    text-decoration: none;
+    font-size: 1.5rem;
+}
+
+/* right side text of result */
+#span {
+    font-weight: bold;
+}
+
+.won {
+    color: var(--clr-win);
+}
+
+.draw {
+    color: var(--clr-accent);
+}
+
+.lost {
+    color: var(--clr-score);
+}
+
+/* 4. score banner red, changes to display win or loss */
+.win {
+    border: 2px solid var(--clr-accent);
+    padding: 1em 1.5em;
+    background-color: var(--clr-dark);
+    border-radius: 0.5rem;
+    color: whitesmoke;
+    text-shadow: 0 0 3px black;
+    display: none;
+    transition-duration: 300ms;
+}
+
+/* 5. small scoreboard that appears below .win banner */
+.scoreBoard {
+    padding: 0.8rem 1.2rem;
+    position: absolute;
+    bottom: -6rem;
+    align-self: center;
+    display: none;
+    text-shadow: 0 0 2px black;
+    color: whitesmoke;
+    border: 2px solid var(--clr-accent);
+    border-radius: 0.3rem;
+    font-weight: bold;
+    transition-duration: 300ms;
+}

@@ -1,5 +1,6 @@
 const result = document.querySelector(".result");
-const score = document.querySelector(".score");
+const win = document.querySelector(".win");
+let scoreBoard = document.querySelector(".scoreBoard");
 const choices = ["Rock", "Paper", "Scissors"];
 let playerScore = 0;
 let computerScore = 0;
@@ -38,40 +39,62 @@ function playRound(playerSelection, computerSelection) {
 
     // if player wins
     if (winStatus) {
-        result.innerHTML = `${playerSelection} beats ${computerSelection}. <span>You won this round! Congrats on the point.</span>`;
-        score.textContent = `You: ${playerScore} | Computer: ${computerScore}`;
         playerScore++;
+        result.innerHTML = `<span>${playerSelection} beats ${computerSelection} → <span id='span'>You <span class="won">WON</span> this round! Congrats on the point.</span id='span'>`;
+        win.textContent = `You: ${playerScore}  |  Computer: ${computerScore}`;
 
         // if  draw
     } else if (
         computerSelection.toLowerCase() ==
         playerSelection.toLowerCase()
     ) {
-        result.textContent = `You both selected ${computerSelection}. It's a draw! No points accrued.`;
-        score.textContent = `You: ${playerScore} | Computer: ${computerScore}`;
+        result.innerHTML = `You both selected ${computerSelection} → <span id='span'>It's a <span class="draw">DRAW!</span> No points accrued.</span id='span'>`;
+        win.textContent = `You: ${playerScore}  |  Computer: ${computerScore}`;
 
         // if computer wins
     } else {
         computerScore++;
-        result.textContent = `${computerSelection} beats ${playerSelection}. You lost this round! Computer gains 1 point.`;
-        score.textContent = `You: ${playerScore} | Computer: ${computerScore}`;
+        result.innerHTML = `${computerSelection} beats ${playerSelection} → <span id='span'>You <span class="lost">LOST</span> this round! Computer gains 1 point.</span id='span'>`;
+        win.textContent = `You: ${playerScore}  |  Computer: ${computerScore}`;
     }
 
     // once player or computer reach 5 points
     if (computerScore === 5) {
-        score.textContent = `Computer Wins! Computer: ${computerScore} | You: ${playerScore}`;
+        win.style.cssText = "border-color: var(--clr-score);";
+        win.textContent = `COMPUTER Wins!`;
+        scoreBoard.textContent = `Computer: ${computerScore}  |  You: ${playerScore}`;
         playerScore = 0;
         computerScore = 0;
+        scoreBoard.style.display = "block";
     } else if (playerScore === 5) {
-        score.textContent = `You Win! You: ${playerScore} | Computer: ${computerScore}`;
+        win.style.cssText = "; border-color: var(--clr-win);";
+        win.textContent = `YOU Win!`;
+        scoreBoard.textContent = `You: ${playerScore}  |  Computer: ${computerScore}`;
         playerScore = 0;
         computerScore = 0;
+        scoreBoard.style.display = "block";
+    } else {
+        scoreBoard.textContent = "";
+        scoreBoard.style.display = "none";
+        win.style.cssText = "; border-color: rgb(175, 175, 255);";
     }
 }
 
+// ============================================================================
+// calls playRound() with correct selection on click
+
 let button = document.querySelectorAll(".button");
-for (let i = 0; i < button.length; i++) {
-    button[i].addEventListener("click", () =>
-        playRound((playerSelection = button[i].getAttribute("id")))
+
+button.forEach((button) => {
+    button.addEventListener("mousedown", (e) => {
+        playRound((playerSelection = button.getAttribute("id")));
+        win.style.display = "block";
+        button.classList.toggle("buttonClick");
+    });
+
+    button.addEventListener("transitionend", () =>
+        button.classList.remove("buttonClick")
     );
-}
+});
+
+// JS CSS STYLING =====
