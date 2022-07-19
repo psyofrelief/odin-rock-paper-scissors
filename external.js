@@ -1,12 +1,8 @@
-//  winStatus variable with default value of false
-let winStatus = false;
-
+const result = document.querySelector(".result");
+const score = document.querySelector(".score");
+const choices = ["Rock", "Paper", "Scissors"];
 let playerScore = 0;
 let computerScore = 0;
-let promptValid = "Select Rock, Paper or Scissors.";
-let promptInvalid = "Select:\nROCK, PAPER or SCISSORS";
-const choices = ["Rock", "Paper", "Scissors"];
-const playerRegex = /^Rock$|^Paper$|^Scissors$/i;
 
 // computerPlay FUNCTION ======================================================
 
@@ -26,92 +22,56 @@ function computerPlay() {
 // declares function that allows user and computer to play 1 round of RPScissors
 function playRound(playerSelection, computerSelection) {
     computerSelection = computerPlay();
-    // assigns boolean result of user input's regex test to `input`
-    let input = playerRegex.test(playerSelection);
-    let playerSelectionUpper =
-        playerSelection[0].toUpperCase() +
-        playerSelection.slice(1).toLowerCase();
-
-    //  condition - if true, winStatus = true & add 1 to playerScore
+    // checks if player or computer won the round
     if (
-        // if input regex is true and if playerSelection > computerSelection
-        input &&
-        ((playerSelection === "rock" &&
+        (playerSelection === "Rock" &&
             computerSelection === "Scissors") ||
-            (playerSelection === "paper" &&
-                computerSelection === "Rock") ||
-            (playerSelection === "scissors" &&
-                computerSelection === "Paper"))
+        (playerSelection === "Paper" &&
+            computerSelection === "Rock") ||
+        (playerSelection === "Scissors" &&
+            computerSelection === "Paper")
     ) {
         winStatus = true;
-        playerScore++;
+    } else {
+        winStatus = false;
     }
 
-    //  condition - return winner and return score if winStatus = true
+    // if player wins
     if (winStatus) {
-        promptValid = promptValid;
-        console.log(
-            `\nYou: ${playerSelectionUpper}\nComputer: ${computerSelection}.\n\nYou won this round! Congrats on the point`
-        );
-        return `---- You: ${playerScore}\nComputer: ${computerScore}.`;
+        result.innerHTML = `${playerSelection} beats ${computerSelection}. <span>You won this round! Congrats on the point.</span>`;
+        score.textContent = `You: ${playerScore} | Computer: ${computerScore}`;
+        playerScore++;
 
-        //  condition - return draw statement and return score if computer & player have same selection
+        // if  draw
     } else if (
         computerSelection.toLowerCase() ==
         playerSelection.toLowerCase()
     ) {
-        console.log(
-            `\nYou: ${playerSelectionUpper}\nComputer: ${computerSelection}.\n\nIt's a draw! No points accrued.`
-        );
-        return `---- You: ${playerScore} | Computer: ${computerScore}`;
+        result.textContent = `You both selected ${computerSelection}. It's a draw! No points accrued.`;
+        score.textContent = `You: ${playerScore} | Computer: ${computerScore}`;
 
-        //  condition - call playRoundError function if input regex is invalid
-    } else if (!input) {
-        promptValid = promptInvalid;
-        console.log(playRound());
-        //  condition - return loss statement and return current score if winStatus != true;
+        // if computer wins
     } else {
         computerScore++;
-        console.log(
-            `\nComputer: ${computerSelection}\nYou: ${playerSelectionUpper}.\n\nYou lost this round! Computer gains 1 point.`
-        );
-        return `---- You: ${playerScore} | Computer: ${computerScore}`;
+        result.textContent = `${computerSelection} beats ${playerSelection}. You lost this round! Computer gains 1 point.`;
+        score.textContent = `You: ${playerScore} | Computer: ${computerScore}`;
+    }
+
+    // once player or computer reach 5 points
+    if (computerScore === 5) {
+        score.textContent = `Computer Wins! Computer: ${computerScore} | You: ${playerScore}`;
+        playerScore = 0;
+        computerScore = 0;
+    } else if (playerScore === 5) {
+        score.textContent = `You Win! You: ${playerScore} | Computer: ${computerScore}`;
+        playerScore = 0;
+        computerScore = 0;
     }
 }
-
-// ============================================================================
-// playRound function, but with scorekeeping and a final message
-// function game() {
-//     // i = number of games, if playRound() is called and i < 5, call playRound() & add 1 to i
-//     for (let i = 0; i < 5; i++) {
-//         console.log(playRound());
-//     }
-//     //  condition - if player wins
-//     if (playerScore > computerScore) {
-//         console.log(
-//             `\nYOU WON THE GAME! ${playerScore} - ${computerScore}.`
-//         );
-//     } else if (playerScore === computerScore) {
-//         console.log(
-//             `\nWELL MATCHED... It's a tie ${playerScore} - ${computerScore}.`
-//         );
-//     } else {
-//         console.log(
-//             `\nCOMPUTER WINS THE GAME! ${computerScore} - ${playerScore}.`
-//         );
-//     }
-
-//     // resets score after game() function has finished running
-//     if (playerScore >= 0 || computerScore >= 0) {
-//         playerScore = 0;
-//         computerScore = 0;
-//         return "What an interesting game of Rock Paper Scissors!";
-//     }
-// }
 
 let button = document.querySelectorAll(".button");
 for (let i = 0; i < button.length; i++) {
     button[i].addEventListener("click", () =>
-        playRound(button[i].textContent)
+        playRound((playerSelection = button[i].getAttribute("id")))
     );
 }
