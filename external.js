@@ -97,4 +97,21 @@ button.forEach((button) => {
     );
 });
 
-// JS CSS STYLING =====
+// ============================================================================
+
+let nightDayBtn = document.querySelector("#nightDayBtn");
+let body = document.querySelector("body");
+let lightModeBtn = document.querySelector(".lightModeBtn");
+let nightModeBtn = document.querySelector(".nightModeBtn");
+
+nightDayBtn.addEventListener("click", () => {
+    nightDayBtn.classList.toggle("nightModeBtn");
+    body.classList.toggle("nightMode");
+    nightDayBtn.classList.toggle("lightModeBtn");
+    body.classList.toggle("lightMode");
+    if (nightDayBtn.className == "lightModeBtn") {
+        nightDayBtn.textContent = "☾";
+    } else {
+        nightDayBtn.textContent = "☼";
+    }
+});

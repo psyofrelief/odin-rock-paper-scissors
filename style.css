@@ -2,12 +2,28 @@
 @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap");
 
 :root {
-    --clr-win: rgb(146, 204, 147);
+    --clr-bg: rgb(50, 53, 62);
+    --clr-win: rgb(131, 188, 132);
     --clr-score: rgb(255, 88, 88);
     --clr-text: whitesmoke;
-    --clr-accent: rgb(175, 175, 255);
-    --clr-bg: rgb(50, 53, 62);
+    --clr-accent-200: rgb(175, 175, 255);
+    --clr-accent-700: rgb(68, 68, 88);
+    --clr-accent-900: rgb(68, 68, 88);
     --clr-dark: rgba(11, 11, 11, 0.79);
+    --clr-fcs: rgba(11, 11, 11, 0.79);
+    --shadow-heavy: 0 0 3px black;
+    /* lightMode variations */
+    --shadow-light: 0 0 18px rgba(85, 85, 85, 0.2);
+    --clr-bg-light: rgb(240, 234, 234);
+    --clr-fcs-light: whitesmoke;
+}
+
+/* changes css variable values */
+.lightMode {
+    --clr-bg: var(--clr-bg-light);
+    --clr-text: var(--clr-accent-900);
+    --clr-fcs: var(--clr-fcs-light);
+    --shadow-heavy: var(--shadow-light);
 }
 
 *,
@@ -21,12 +37,14 @@
 
 body {
     background-color: var(--clr-bg);
-    min-height: 100%;
-    flex-direction: column;
-    padding: 5rem 4rem 8rem 4rem;
-    justify-content: center;
+    text-shadow: var(--shadow-heavy);
     font-family: "Rubik", sans-serif;
     font-weight: 400;
+    min-height: 100%;
+    max-height: 100vh;
+    flex-direction: column;
+    padding: 5rem 4rem 12rem 4rem;
+    justify-content: center;
     text-align: center;
     align-items: center;
     display: flex;
@@ -34,106 +52,162 @@ body {
 
 /* ============================================================================ */
 
-/* 1. */
+.scoreBoard,
+.win,
+.buttonClick {
+    background-color: var(--clr-fcs);
+}
+
+/* 1. ROCK PAPER SCISSORS TEXT */
 .title {
+    text-shadow: 2px 2px 0.6rem rgb(126, 126, 126);
     font-family: "Josefin Sans", sans-serif;
+    font-size: 2.8rem;
     font-weight: 900;
     letter-spacing: 0.4ch;
     text-align: center;
-    color: var(--clr-text);
-    font-size: 2.8rem;
-    text-shadow: 1px 1px 2rem black;
     transition-duration: 400ms;
 }
 
-/* 2. */
+/* 2. contains all elements except footer and button */
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
-    gap: 3vw;
+    gap: 2rem;
     transition-duration: 150ms;
+    max-width: 100vw;
 }
 
 .container > * {
+    color: var(--clr-text);
     margin: 1.5rem;
 }
 
 .button__container {
-    gap: 6vw;
+    gap: 3vw;
     display: flex;
 }
 
 .button {
-    padding: 1em;
-    font-size: 2.5rem;
-    border-radius: 0.3em;
-    min-width: 10vw;
     background-color: rgba(0, 0, 0, 0.1);
-    border: 2px dashed rgba(241, 237, 237, 0.7);
+    border: 2px dashed var(--clr-text);
+    border-radius: 0.3em;
+    font-size: 2.5rem;
+    padding: min(8vw, 5.5rem);
 }
 
 .button:hover {
+    border: 2px dashed var(--clr-fcs);
     cursor: pointer;
-    border: 2px dashed rgb(255, 255, 255);
 }
 
 .buttonClick {
-    box-shadow: 1px 1px 2rem black;
-    transition-duration: 500ms;
+    box-shadow: 0 0 0.5rem var(--clr-text);
+    border: 3px dashed white;
+    transition-duration: 250ms;
     transform: scale(1.1);
-    border: 3px dashed rgb(255, 255, 255);
-    background-color: var(--clr-dark);
 }
 
-/* 3. paragraph that displays round result */
+/* 3. statement that displays round result */
 .result {
-    color: var(--clr-text);
-    text-decoration: none;
     font-size: 1.5rem;
+    text-decoration: none;
 }
 
-/* right side text of result */
+/* right side text of result statement */
 #span {
     font-weight: bold;
 }
 
+/* colored text in result statement */
 .won {
     color: var(--clr-win);
 }
-
 .draw {
-    color: var(--clr-accent);
+    color: var(--clr-accent-200);
 }
-
 .lost {
     color: var(--clr-score);
 }
 
-/* 4. score banner red, changes to display win or loss */
+/* 4. winStatus banner, changes to display win or loss */
 .win {
-    border: 2px solid var(--clr-accent);
-    padding: 1em 1.5em;
-    background-color: var(--clr-dark);
+    text-shadow: var(--shadow-heavy);
+    border: 3px solid var(--clr-accent-200);
     border-radius: 0.5rem;
-    color: whitesmoke;
-    text-shadow: 0 0 3px black;
+    font-size: 1.5rem;
+    padding: 1em 1.5em;
     display: none;
-    transition-duration: 300ms;
+    transition-duration: 200ms;
 }
 
 /* 5. small scoreboard that appears below .win banner */
 .scoreBoard {
-    padding: 0.8rem 1.2rem;
-    position: absolute;
-    bottom: -6rem;
-    align-self: center;
-    display: none;
-    text-shadow: 0 0 2px black;
-    color: whitesmoke;
-    border: 2px solid var(--clr-accent);
+    text-shadow: var(--shadow-heavy);
+    border: 3px solid var(--clr-accent-200);
     border-radius: 0.3rem;
     font-weight: bold;
+    padding: 0.8rem 1.2rem;
+    position: absolute;
+    bottom: -4.5rem;
+    align-self: center;
+    display: none;
+
     transition-duration: 300ms;
+}
+
+/* 6. footer text */
+.footerTxt {
+    color: rgba(245, 245, 245, 0.882);
+    background-color: var(--clr-accent-900);
+    font-size: 0.8rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0.8em 0;
+}
+
+/* 7. night m0de button */
+#nightDayBtn {
+    font-size: 2rem;
+    position: fixed;
+    right: 0;
+    top: 0;
+    margin: 2rem 1.5rem;
+    transition-duration: 200ms;
+}
+
+.nightModeBtn {
+    color: var(--clr-text);
+    background: var(--clr-accent-700);
+    border: 1px dashed var(--clr-text);
+    border-radius: 30%;
+    padding: 0.3em 0.4em;
+    transition-duration: 500ms;
+}
+
+.nightModeBtn:hover {
+    color: white;
+    box-shadow: 1px 1px 1rem rgb(126, 126, 126);
+    border: 1px dashed white;
+    cursor: pointer;
+    transform: scale(1.06);
+}
+
+.lightModeBtn {
+    background-color: whitesmoke;
+    border: 2px dashed var(--clr-accent-900);
+    border-radius: 50%;
+    font-size: 2.9rem;
+    padding: 0.6rem 1.15rem;
+    transition-duration: 500ms;
+}
+
+.lightModeBtn:hover {
+    box-shadow: 0 0 1rem var(--clr-dark);
+    transform: scale(1.06);
+    cursor: pointer;
 }
